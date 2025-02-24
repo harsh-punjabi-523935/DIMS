@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Identity Dashboard</title>
+    <link rel="stylesheet" href="dashboard_page.css">
+</head>
+<body>
+    <!-- Header Navigation -->
+    <header>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#profile">Profile</a></li>
+                <li><a href="#access">Manage Access</a></li>
+                <li><a href="#verification">Verify Identity</a></li>
+                <li><a href="#registration">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Dashboard Container -->
+    <div class="container">
+        <h1>Welcome to Your Identity Dashboard</h1>
+
+        <!-- Profile Section -->
+        <div id="profile" class="profile-section">
+            <h2>Your Identity</h2>
+            <p><strong>Name:</strong> <span id="name">Private</span></p>
+            <p><strong>Email:</strong> <span id="email">Private</span></p>
+            <p><strong>ID:</strong> <span id="id">Private</span></p>
+            <button onclick="editPreferences()">Edit Sharing Preferences</button>
+        </div>
+
+        <!-- Sharing Preferences Update Section -->
+        <div class="preferences-section" style="display:none;">
+            <h3>Edit Sharing Preferences</h3>
+            <label for="shareName">Share Name:</label>
+            <input type="checkbox" id="shareName">
+            <br>
+            <label for="shareEmail">Share Email:</label>
+            <input type="checkbox" id="shareEmail">
+            <br>
+            <label for="shareId">Share ID:</label>
+            <input type="checkbox" id="shareId">
+            <br>
+            <button onclick="savePreferences()">Save Preferences</button>
+        </div>
+
+        <!-- Access Management Section -->
+        <div id="access" class="access-section">
+            <h2>Manage Access</h2>
+            <div>
+                <label for="grantAccessAddress">Grant Access to:</label>
+                <input type="text" id="grantAccessAddress" placeholder="Enter address">
+                <button onclick="grantAccess()">Grant Access</button>
+            </div>
+            <div>
+                <label for="revokeAccessAddress">Revoke Access from:</label>
+                <input type="text" id="revokeAccessAddress" placeholder="Enter address">
+                <button onclick="revokeAccess()">Revoke Access</button>
+            </div>
+            <h3>Users with Access:</h3>
+            <ul id="accessList"></ul>
+        </div>
+
+        <!-- Identity Verification Section -->
+        <div id="verification" class="verification-section">
+            <h2>Verify Identity</h2>
+            <label for="identityProof">Enter Identity Proof:</label>
+            <input type="text" id="identityProof" placeholder="Enter identity proof">
+            <button onclick="verifyIdentity()">Verify</button>
+        </div>
+
+        <!-- Registration Status Section -->
+        <div id="registration" class="registration-status">
+            <h2>Registration Status</h2>
+            <p id="registrationStatus">You are not registered yet.</p>
+            <button onclick="registerIdentity()">Register Identity</button>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
