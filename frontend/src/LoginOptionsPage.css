@@ -1,0 +1,83 @@
+/* index.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: white;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.welcome-box {
+  background: #ccc;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+p {
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.btn {
+  width: 100%;
+  padding: 15px; /* Added padding here */
+  font-size: 18px;
+  border-radius: 5px;
+  border: none; /* Removed border */
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.org-btn {
+  background: #34c759;
+}
+
+.personal-btn {
+  background: #ff9500;
+}
+
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+.org-btn:hover {
+  background: #28a745;
+}
+
+.personal-btn:hover {
+  background: #e87e00;
+}
