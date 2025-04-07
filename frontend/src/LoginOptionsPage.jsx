@@ -1,49 +1,90 @@
-import React from "react";
-import "./LoginOptionsPage.css"; 
+import React, { useEffect, useState } from "react";
+import "./login_options_page.css";
 import { useNavigate } from "react-router-dom";
+import { ethers } from "ethers";
+import "../../src/UnifiedIdentityABI.json"
+import {contractAddress, contractABI} from "./config"; // Your deployed contract address
+
 
 const LoginOptionsPage = () => {
-
   const navigate = useNavigate();
+  const [account, setAccount] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    // checkUserRegistration();
+  }, []);
+
+  const connectWallet = async () => {
+    if (!window.ethereum) {
+      setError("MetaMask is not installed. Please install it.");
+      return;
+    }
+
+    try {
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+      setAccount(address);
+
+      checkUserRegistration(address);
+    } catch (err) {
+      console.error("Wallet connection failed:", err);
+      setError("Wallet connection failed.");
+    }
+  };
+
+const checkUserRegistration = async (walletAddress = null) => {
+    try {
+      
+      setLoading(true);
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
+
+      const userAddress = walletAddress || account;
+      if (!userAddress) return;
+      const isRegistered = await contract.isUserRegistered(userAddress);
+      if (isRegistered) {
+        navigate("/individual-dashboard"); // Redirect to dashboard
+      } else {
+        navigate("/individual-registration")
+      }
+    } catch (err) {
+      console.error("Error checking registration:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
-    <div className="container">
-      <div className="welcome-box">
-        <h1 className="heading">Welcome</h1>
-        <p className="subheading">Please choose your login option:</p>
-        <div className="buttons-container">
-          <button 
-            style={{
-              padding: '15px',
-              fontSize: '18px',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              color: '#ffffff',
-              backgroundColor: '#34c759', /* for org-btn */
-            }}
-            className="org-btn"
-            onClick={() => navigate("/business-login")}
-          >
-            Organization Login
-          </button>
-          <button
-               style={{
-                padding: '15px',
-                fontSize: '18px',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                color: '#ffffff',
-                backgroundColor: '#ff9500', /* for org-btn */
-              }}
-            className="personal-btn"
-            onClick={() => navigate("/login")}
-          >
-            Personal Login
-          </button>
+    <div className="landing-container">
+      <header className="header">
+        <h1 className="brand">NexAlpha</h1>
+      </header>
+
+      <main className="main-content">
+        <div className="intro-text">
+          <h2>Welcome to NexAlpha</h2>
+          <p>Choose your login type to access your personalized dashboard</p>
+
+          <div className="button-group">
+            <button className="login-btn individual" onClick={(connectWallet)}>Login as Individual</button>
+            <button className="login-btn org" onClick={() => navigate("/metamask-corporate-login")}>Login as Organization</button>
+          </div>
         </div>
-      </div>
+
+        <div className="animated-image">
+          <img src="/blockchain_animation.gif" alt="Blockchain Animation" />
+        </div>
+      </main>
+
+      <footer className="footer">
+        <p>Created by Mohit Shah, Harsh Punjabi, and Mohammad Arif</p>
+        <p>Guided by Debasish Chakraborti</p>
+      </footer>
     </div>
   );
 };

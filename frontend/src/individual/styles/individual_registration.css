@@ -1,0 +1,80 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #1c1c2b, #2c2c3e);
+  color: white;
+}
+
+.reg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.reg-card {
+  background-color: #2a2a40;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  max-width: 600px;
+  width: 90%;
+}
+
+.reg-card h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #00c3ff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reg-row {
+  display: flex;
+  gap: 20px;
+}
+
+.reg-row input,
+.reg-row select,
+input,
+select {
+  flex: 1;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  background: #1c1c2b;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  border: 1px solid #444;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #00c3ff;
+}
+
+.reg-btn {
+  background: #00c3ff;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease;
+}
+
+.reg-btn:hover {
+  background: #00a0d1;
+  transform: translateY(-2px);
+}
