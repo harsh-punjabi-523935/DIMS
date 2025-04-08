@@ -6,7 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 
 const PendingRequests = () => {
   const [requests, setRequests] = useState([]);
-  const [names, setNames] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,47 +14,63 @@ const PendingRequests = () => {
 
   const fetchRequests = async () => {
     if (!window.ethereum) return alert("Please install MetaMask");
+  
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
-
-      const [reqs, names] = await contract.getRequests();
+  
+      // Call the contract method with proper address
+      const reqs = await contract.getPendingAccessRequests(await signer.getAddress());
+      console.log("Fetched requests:", reqs); // Log the data to check
       setRequests(reqs);
-      setNames(names);
       setLoading(false);
     } catch (err) {
       console.error("Failed to fetch requests:", err);
-      toast.error("Unable to fetch data");
+      if (err.data) {
+        console.error("Error data:", err.data);
+      }
+      toast.error("Unable to fetch data: " + (err.message || err));
     }
   };
+  
 
   const handleAccept = async (address) => {
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
     const contract = new ethers.Contract(contractAddress, contractABI, signer);
-    const tx = await contract.acceptRequest(address);
-    await tx.wait();
-    toast.success("Access Granted!");
-    fetchRequests();
+    try {
+      const tx = await contract.acceptRequest(address);
+      await tx.wait();
+      toast.success("Access Granted!");
+      fetchRequests(); // Refresh the requests list
+    } catch (err) {
+      console.error("Error accepting request:", err);
+      toast.error("Error granting access");
+    }
   };
 
   const handleReject = async (address) => {
     const provider = new ethers.BrowserProvider(window.ethereum);
     const signer = await provider.getSigner();
     const contract = new ethers.Contract(contractAddress, contractABI, signer);
-    const tx = await contract.rejectRequest(address);
-    await tx.wait();
-    toast.success("Access Rejected!");
-    fetchRequests();
+    try {
+      const tx = await contract.rejectRequest(address);
+      await tx.wait();
+      toast.success("Access Rejected!");
+      fetchRequests(); // Refresh the requests list
+    } catch (err) {
+      console.error("Error rejecting request:", err);
+      toast.error("Error rejecting access");
+    }
   };
 
   return (
     <div className="Dashboard">
       <aside className="sidebar">
         <ul>
-          <li onClick={() => window.location.href='/individual-dashboard'}>Profile</li>
-          <li onClick={() => window.location.href='/preferences'}>Update Preferences</li>
+          <li onClick={() => window.location.href='/profile'}>Profile</li>
+          <li onClick={() => window.location.href='/individual-dashboard'}>Update Preferences</li>
           <li onClick={() => window.location.href='/grant-access'}>Grant Access</li>
           <li onClick={() => window.location.href='/revoke-access'}>Revoke Access</li>
           <li className="active" onClick={() => window.location.href='/pending-requests'}>Pending Requests</li>
@@ -76,7 +91,6 @@ const PendingRequests = () => {
                 requests.map((req, index) => (
                   req.isPending && (
                     <div className="request-card" key={index}>
-                      <p><strong>Name:</strong> {names[index]}</p>
                       <p><strong>Address:</strong> {req.requester}</p>
                       <div className="action-buttons">
                         <button className="accept" onClick={() => handleAccept(req.requester)}>Accept</button>
@@ -91,14 +105,14 @@ const PendingRequests = () => {
         </main>
       </div>
       <ToastContainer 
-              position="top-right" 
-              autoClose={3000} 
-              hideProgressBar={false} 
-              newestOnTop={true} 
-              closeOnClick
-              pauseOnHover
-              theme="dark"
-            />
+        position="top-right" 
+        autoClose={3000} 
+        hideProgressBar={false} 
+        newestOnTop={true} 
+        closeOnClick
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

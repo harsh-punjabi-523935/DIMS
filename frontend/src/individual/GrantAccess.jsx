@@ -32,8 +32,8 @@ const GrantAccess = () => {
     <div className="Dashboard">
       <aside className="sidebar">
         <ul>
-          <li onClick={() => window.location.href='/individual-dashboard'}>Profile</li>
-          <li onClick={() => window.location.href='/preferences'}>Update Preferences</li>
+          <li onClick={() => window.location.href='/profile'}>Profile</li>
+          <li onClick={() => window.location.href='/individual-dashboard'}>Update Preferences</li>
           <li onClick={() => window.location.href='/grant-access'} className="active">Grant Access</li>
           <li onClick={() => window.location.href='/revoke-access'}>Revoke Access</li>
           <li onClick={() => window.location.href = '/pending-requests'}>Pending Requests</li>

@@ -18,7 +18,7 @@ const PendingRequests = () => {
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-      const [reqList, nameList] = await contract.getRequests();
+      const [reqList, nameList] = await contract.AccessRequest();
       setRequests(reqList);
       setNames(nameList);
     } catch (err) {
