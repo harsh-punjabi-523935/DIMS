@@ -72,7 +72,7 @@ const checkUserRegistration = async (walletAddress = null) => {
 
           <div className="button-group">
             <button className="login-btn individual" onClick={(connectWallet)}>Login as Individual</button>
-            <button className="login-btn org" onClick={() => navigate("/metamask-corporate-login")}>Login as Organization</button>
+            <button className="login-btn org" onClick={() => navigate("/corporate-login")}>Login as Organization</button>
           </div>
         </div>
 
