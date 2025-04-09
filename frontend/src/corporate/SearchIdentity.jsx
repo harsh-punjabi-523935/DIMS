@@ -3,8 +3,10 @@ import { ethers } from "ethers";
 import { contractAddress, contractABI } from "../config";
 import "../corporate/styles/search_identity.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const SearchIdentity = () => {
+  const navigate = useNavigate();
   const [walletAddress, setWalletAddress] = useState("");
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
@@ -12,23 +14,23 @@ const SearchIdentity = () => {
   const handleSearch = async () => {
     setError("");
     setResult(null);
-
+  
     try {
       if (!ethers.isAddress(walletAddress)) {
         toast.error("Invalid wallet address.");
         return;
       }
-
+  
       if (!window.ethereum) {
         toast.error("MetaMask not detected.");
         return;
       }
-
+  
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
-
-      const data = await contract.getUserDetails(walletAddress);
+  
+      const data = await contract.searchIdentity(walletAddress);
       setResult({
         name: data[0],
         email: data[1],
@@ -39,18 +41,18 @@ const SearchIdentity = () => {
       toast.error("Could not fetch identity. Make sure the user is registered and accessible.");
     }
   };
+  
 
   return (
     <div className="search-dashboard">
       <aside className="sidebar">
         <ul>
-          <li>Dashboard</li>
+        <li onClick={() => navigate('/corporate-dashboard')}>Dashboard</li>
           <li className="active">Search Identity</li>
-          <li>Request Access</li>
-          <li>Pending Requests</li>
-          <li>Approved Access</li>
-          <li>Revoke Access</li>
-          <li>Organization Profile</li>
+          <li onClick={() => navigate('/request-access')}>Request Access</li>
+          <li onClick={() => navigate('/corporate-pending-requests')}>Pending Requests</li>
+          <li onClick={() => navigate('/approved-access')}>Approved Access</li>
+          <li onClick={() => navigate('/corporate-profile')}>Organization Profile</li>
         </ul>
         <button className="logout" onClick={() => console.log("Logout clicked")}>Logout</button>
       </aside>

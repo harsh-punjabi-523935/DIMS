@@ -3,11 +3,13 @@ import { ethers } from "ethers";
 import { contractAddress, contractABI } from "../config";
 import "../corporate/styles/request_access.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const RequestAccess = () => {
   const [ownerAddress, setOwnerAddress] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleRequestAccess = async () => {
     setMessage("");
@@ -41,13 +43,13 @@ const RequestAccess = () => {
     <div className="request-dashboard">
       <aside className="sidebar">
       <ul>
-          <li>Dashboard</li>
-          <li>Search Identity</li>
+          <li onClick={() => navigate('/corporate-dashboard')}>Dashboard</li>
+          <li onClick={() => navigate('/search-identity')}>Search Identity</li>
           <li className="active">Request Access</li>
-          <li>Pending Requests</li>
-          <li>Approved Access</li>
-          <li>Revoke Access</li>
-          <li>Organization Profile</li>
+          <li onClick={() => navigate('/corporate-pending-requests')}>Pending Requests</li>
+          <li onClick={() => navigate('/approved-access')}>Approved Access</li>
+          <li onClick={() => navigate('/corporate-profile')}>Organization Profile</li>
+
         </ul>
         <button className="logout" onClick={() => console.log("Logout clicked")}>Logout</button>
       </aside>

@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "../corporate/styles/corporate_dashboard.css";
-import { contractAddress, contractABI } from "../config";
+import { contractAddress, corporateABI } from "../config";
 import { ethers } from "ethers";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CorporateDashboard = () => {
 
-
+  const navigate = useNavigate()
   const [orgData, setOrgData] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const [stats, setStats] = useState({
+    totalSent: 0,
+    pending: 0,
+    approved: 0,
+    rejected: 0
+  });
   useEffect(() => {
     fetchCorporateDetails();
   }, []);
@@ -20,10 +26,38 @@ const CorporateDashboard = () => {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, contractABI, signer);
+      const contract = new ethers.Contract(contractAddress, corporateABI, signer);
       const userAddress = await signer.getAddress();
 
-      const data = await contract.getCorporateDetails(userAddress);
+      const data = await contract.getCorporateProfile(userAddress); // You must have this function in your contract
+
+    const stats = await contract.getCorporateDashboardStats(userAddress);
+
+    setStats({
+      totalSent: Number(stats[0]),
+      pending: Number(stats[1]),
+      approved: Number(stats[2]),
+      rejected: Number(stats[3])
+    });
+
+    setOrgData({
+      orgName: data[0],
+      email: data[1],
+      registrationNumber: data[2],
+      businessType: data[3],
+      headquarters: data[4],
+      contactPerson: data[5]
+    });
+
+
+      console.log("Total Sent:", stats[0].toString());
+      console.log("Pending:", stats[1].toString());
+      console.log("Approved:", stats[2].toString());
+      console.log("Rejected:", stats[3].toString());
+
+        
+
+
       setOrgData({
         orgName: data[0],
         email: data[1],
@@ -44,12 +78,12 @@ const CorporateDashboard = () => {
       <aside className="sidebar">
         <ul>
           <li className="active">Dashboard</li>
-          <li>Search Identity</li>
-          <li>Request Access</li>
-          <li>Pending Requests</li>
-          <li>Approved Access</li>
-          <li>Revoke Access</li>
-          <li>Organization Profile</li>
+          <li onClick={() => navigate('/search-identity')}>Search Identity</li>
+          <li onClick={() => navigate('/request-access')}>Request Access</li>
+          <li onClick={() => navigate('/corporate-pending-requests')}>Pending Requests</li>
+          <li onClick={() => navigate('/approved-access')}>Approved Access</li>
+          <li onClick={() => navigate('/corporate-profile')}>Organization Profile</li>
+
         </ul>
         <button className="logout">Logout</button>
       </aside>
@@ -61,24 +95,25 @@ const CorporateDashboard = () => {
         
         <section className="overview">
           <h2>Overview</h2>
-          <div className="overview-cards">
-            <div className="card">
-              <h3>Requests Sent</h3>
-              <p>12</p>
-            </div>
-            <div className="card">
-              <h3>Access Approved</h3>
-              <p>8</p>
-            </div>
-            <div className="card">
-              <h3>Pending Requests</h3>
-              <p>4</p>
-            </div>
-            <div className="card">
-              <h3>Requests Rejected</h3>
-              <p>4</p>
-            </div>
-          </div>
+         <div className="overview-cards">
+  <div className="card">
+    <h3>Requests Sent</h3>
+    <p>{stats.totalSent}</p>
+  </div>
+  <div className="card">
+    <h3>Access Approved</h3>
+    <p>{stats.approved}</p>
+  </div>
+  <div className="card">
+    <h3>Pending Requests</h3>
+    <p>{stats.pending}</p>
+  </div>
+  <div className="card">
+    <h3>Requests Rejected</h3>
+    <p>{stats.rejected}</p>
+  </div>
+</div>
+
         </section>
 
         <section className="org-info">

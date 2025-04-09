@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import "./pending_requests.css";
+import "../corporate/styles/pending_requests.css";
 import { ethers } from "ethers";
-import { contractAddress, contractABI } from "../corporate/styles/pending_requests.css";
+import { contractAddress, corporateABI } from "../config";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-const PendingRequests = () => {
+const CorporatePendingRequests = () => {
   const [requests, setRequests] = useState([]);
   const [names, setNames] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPendingRequests();
+     fetchPendingRequests();
   }, []);
 
   const fetchPendingRequests = async () => {
@@ -18,7 +20,7 @@ const PendingRequests = () => {
       const signer = await provider.getSigner();
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-      const [reqList, nameList] = await contract.AccessRequest();
+      const [reqList, nameList] = await contract.getMyPendingRequests();
       setRequests(reqList);
       setNames(nameList);
     } catch (err) {
@@ -31,7 +33,7 @@ const PendingRequests = () => {
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, contractABI, signer);
+      const contract = new ethers.Contract(contractAddress, corporateABI, signer);
 
       const tx = await (action === "accept"
         ? contract.acceptRequest(requester)
@@ -49,11 +51,13 @@ const PendingRequests = () => {
     <div className="Dashboard">
       <aside className="sidebar">
         <ul>
-          <li onClick={() => (window.location.href = "/metamask-dashboard")}>Profile</li>
-          <li onClick={() => (window.location.href = "/preferences")}>Update Preferences</li>
-          <li onClick={() => (window.location.href = "/grant-access")}>Grant Access</li>
-          <li onClick={() => (window.location.href = "/revoke-access")}>Revoke Access</li>
+          <li onClick={() => navigate('/corporate-dashboard')}>Dashboard</li>
+          <li onClick={() => navigate('/search-identity')}>Search Identity</li>
+          <li onClick={() => navigate('/request-access')}>Request Access</li>
           <li className="active">Pending Requests</li>
+          <li onClick={() => navigate('/approved-access')}>Approved Access</li>
+          <li onClick={() => navigate('/corporate-profile')}>Organization Profile</li>
+
         </ul>
         <button className="logout" onClick={() => console.log("Logout clicked")}>
           Logout
@@ -87,10 +91,18 @@ const PendingRequests = () => {
             </ul>
           )}
         </main>
-        <ToastContainer />
+          <ToastContainer 
+                      position="top-right" 
+                      autoClose={3000} 
+                      hideProgressBar={false} 
+                      newestOnTop={true} 
+                      closeOnClick
+                      pauseOnHover
+                      theme="dark"
+                    />
       </div>
     </div>
   );
 };
 
-export default PendingRequests;
+export default CorporatePendingRequests;

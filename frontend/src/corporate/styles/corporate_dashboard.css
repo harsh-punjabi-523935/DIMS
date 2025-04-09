@@ -67,7 +67,7 @@ body {
     flex-grow: 1;
     padding: 30px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column !important;
     margin-left: 250px;
   }
   

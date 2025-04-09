@@ -121,25 +121,6 @@
 				"internalType": "address",
 				"name": "user",
 				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			}
-		],
-		"name": "IndividualRegistered",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
 			}
 		],
 		"name": "SharingPreferencesUpdated",
@@ -149,68 +130,116 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_requester",
+				"name": "_corporate",
 				"type": "address"
 			}
 		],
-		"name": "acceptRequest",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"name": "getCorporateDashboardStats",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "totalSent",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "pending",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "approved",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "rejected",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_org",
+				"type": "address"
+			}
+		],
+		"name": "getCorporateProfile",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "orgName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "email",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "registrationNumber",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "businessType",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "headquarters",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "contactPerson",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "wallet",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "getFullProfile",
+		"name": "getMyApprovedAccesses",
 		"outputs": [
 			{
-				"internalType": "string",
+				"internalType": "address[]",
 				"name": "",
-				"type": "string"
+				"type": "address[]"
 			},
 			{
-				"internalType": "string",
+				"internalType": "string[]",
 				"name": "",
-				"type": "string"
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getMyPendingRequests",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "owners",
+				"type": "address[]"
 			},
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
+				"internalType": "string[]",
+				"name": "names",
+				"type": "string[]"
 			}
 		],
 		"stateMutability": "view",
@@ -240,120 +269,6 @@
 					}
 				],
 				"internalType": "struct UnifiedIdentity.AccessRequest[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			}
-		],
-		"name": "getProfile",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "email",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "phone",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "dob",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "gender",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "addressLine",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "profilePicHash",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "identityProofHash",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "occupation",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getUsersWhoHaveAccessToMe",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "requesterAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "requesterName",
-						"type": "string"
-					}
-				],
-				"internalType": "struct UnifiedIdentity.Access[]",
-				"name": "",
-				"type": "tuple[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getUsersWithAccess",
-		"outputs": [
-			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "requesterAddress",
-						"type": "address"
-					},
-					{
-						"internalType": "string",
-						"name": "requesterName",
-						"type": "string"
-					}
-				],
-				"internalType": "struct UnifiedIdentity.Access[]",
 				"name": "",
 				"type": "tuple[]"
 			}
@@ -434,77 +349,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_email",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_phone",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_dob",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_gender",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_addressLine",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_profilePicHash",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_identityProofHash",
-				"type": "string"
-			},
-			{
-				"internalType": "string",
-				"name": "_occupation",
-				"type": "string"
-			}
-		],
-		"name": "registerIndividual",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_requester",
-				"type": "address"
-			}
-		],
-		"name": "rejectRequest",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "_owner",
 				"type": "address"
@@ -531,102 +375,65 @@
 	{
 		"inputs": [
 			{
-				"internalType": "bool",
-				"name": "_shareName",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "_shareEmail",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "_shareId",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "_sharePhone",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "_shareDob",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "_shareGender",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "_shareAddress",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "_shareProfilePic",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "_shareIdentityProof",
-				"type": "bool"
-			},
-			{
-				"internalType": "bool",
-				"name": "_shareOccupation",
-				"type": "bool"
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
 			}
 		],
-		"name": "updateSharingPreferences",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
+		"name": "searchIdentity",
+		"outputs": [
 			{
 				"internalType": "string",
-				"name": "_name",
+				"name": "name",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_email",
+				"name": "email",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "phone",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_phone",
+				"name": "dob",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_dob",
+				"name": "gender",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_gender",
+				"name": "addressLine",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_addressLine",
+				"name": "profilePicHash",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_occupation",
+				"name": "identityProofHash",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "occupation",
 				"type": "string"
 			}
 		],
-		"name": "updateUserDetails",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
