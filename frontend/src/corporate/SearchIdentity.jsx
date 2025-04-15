@@ -35,6 +35,11 @@ const SearchIdentity = () => {
         name: data[0],
         email: data[1],
         id: data[2].toString(),
+        phone: data[3],
+        dob: data[4],
+        gender: data[5].toString(),
+        addressLine: data[6].toString(),
+        occupation: data[9]
       });
     } catch (err) {
       console.error(err);
@@ -75,6 +80,12 @@ const SearchIdentity = () => {
             <p><strong>Name:</strong> {result.name}</p>
             <p><strong>Email:</strong> {result.email}</p>
             <p><strong>ID:</strong> {result.id}</p>
+            <p><strong>Phone:</strong> {result.phone}</p>
+            <p><strong>Date of Birth:</strong> {result.dob}</p>
+            <p><strong>Gender:</strong> {result.gender}</p>
+            <p><strong>Address:</strong> {result.addressLine}</p>
+            <p><strong>Occupation:</strong> {result.occupation}</p>
+
           </div>
         )}
       </div>

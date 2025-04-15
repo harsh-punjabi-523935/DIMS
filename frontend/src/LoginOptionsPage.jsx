@@ -61,10 +61,11 @@ const checkCorporateUserRegistration = async (walletAddress = null) => {
       setLoading(true);
       const provider = new ethers.BrowserProvider(window.ethereum);
       const contract = new ethers.Contract(contractAddress, contractABI, provider);
-
+      console.log()
       const userAddress = walletAddress || account;
       if (!userAddress) return;
       const isRegistered = await contract.isUserRegistered(userAddress);
+      console.log(isRegistered)
       if (isRegistered) {
         navigate("/corporate-dashboard"); // Redirect to dashboard
       } else {

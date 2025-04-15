@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../corporate/styles/pending_requests.css";
 import { ethers } from "ethers";
-import { contractAddress, corporateABI } from "../config";
+import { contractAddress, contractABI } from "../config";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -33,7 +33,7 @@ const CorporatePendingRequests = () => {
     try {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, corporateABI, signer);
+      const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
       const tx = await (action === "accept"
         ? contract.acceptRequest(requester)

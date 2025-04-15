@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../corporate/styles/corporate_dashboard.css";
-import { contractAddress, corporateABI } from "../config";
+import { contractAddress, contractABI } from "../config";
 import { ethers } from "ethers";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ const CorporateDashboard = () => {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, corporateABI, signer);
+      const contract = new ethers.Contract(contractAddress, contractABI, signer);
       const userAddress = await signer.getAddress();
 
       const data = await contract.getCorporateProfile(userAddress); // You must have this function in your contract

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../individual/styles/individual_registration.css";
 import { ethers } from "ethers";
-import { contractAddress, corporateABI } from "../config";
+import { contractAddress, contractABI } from "../config";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ const CorporateRegistration = () => {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, corporateABI, signer);
+      const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
       const tx = await contract.registerCorporate(
         form.orgName,

@@ -21,9 +21,13 @@ const PendingRequests = () => {
       const contract = new ethers.Contract(contractAddress, contractABI, signer);
   
       // Call the contract method with proper address
-      const reqs = await contract.getPendingAccessRequests(await signer.getAddress());
-      console.log("Fetched requests:", reqs); // Log the data to check
-      setRequests(reqs);
+      const [addresses, names] = await contract.getPendingAccessRequests(await signer.getAddress());
+      // console.log("Fetched requests:", reqs); // Log the data to check
+      const combined = addresses.map((addr, index) => ({
+        requester: addr,
+        name: names[index],
+      }));
+      setRequests(combined);
       setLoading(false);
     } catch (err) {
       console.error("Failed to fetch requests:", err);
@@ -89,15 +93,14 @@ const PendingRequests = () => {
             <div className="requests-list">
               {requests.length === 0 ? <p>No pending requests.</p> : (
                 requests.map((req, index) => (
-                  req.isPending && (
-                    <div className="request-card" key={index}>
-                      <p><strong>Address:</strong> {req.requester}</p>
-                      <div className="action-buttons">
-                        <button className="accept" onClick={() => handleAccept(req.requester)}>Accept</button>
-                        <button className="reject" onClick={() => handleReject(req.requester)}>Reject</button>
-                      </div>
+                  <div className="request-card" key={index}>
+                    <p><strong>Name:</strong> {req.name}</p>
+                    <p><strong>Address:</strong> {req.requester}</p>
+                    <div className="action-buttons">
+                      <button className="accept-btn" onClick={() => handleAccept(req.requester)}>Accept</button>
+                      <button className="reject-btn" onClick={() => handleReject(req.requester)}>Reject</button>
                     </div>
-                  )
+                  </div>
                 ))
               )}
             </div>

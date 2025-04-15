@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { corporateABI, contractAddress } from "../config";
+import { contractABI, contractAddress } from "../config";
 import "../corporate/styles/corporate_profile.css";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ const CorporateProfile = () => {
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const userAddress = await signer.getAddress();
-      const contract = new ethers.Contract(contractAddress, corporateABI, provider);
+      const contract = new ethers.Contract(contractAddress, contractABI, provider);
 
 
       const data = await contract.getCorporateProfile(userAddress);

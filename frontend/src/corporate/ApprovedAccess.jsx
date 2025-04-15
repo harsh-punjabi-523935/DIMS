@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../corporate/styles/aproved_access.css";
 import { ethers } from "ethers";
-import { corporateABI, contractAddress } from "../config";
+import { contractABI, contractAddress } from "../config";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ const ApprovedAccess = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // fetchApprovedAccess();
+    fetchApprovedAccess();
   }, []);
 
   const fetchApprovedAccess = async () => {
@@ -19,9 +19,10 @@ const ApprovedAccess = () => {
 
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
-      const contract = new ethers.Contract(contractAddress, corporateABI, signer);
+      const contract = new ethers.Contract(contractAddress, contractABI, signer);
 
-      const users = await contract.getMyApprovedAccesses();
+      const users = await contract.getUsersWhoHaveAccessToMe();
+      console.log(users);
       setAccessList(users);
     } catch (error) {
       console.error("Error fetching access list:", error);

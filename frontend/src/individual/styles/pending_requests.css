@@ -147,6 +147,14 @@ body {
   margin-top: 10px;
 }
 
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px; /* 👈 this line adds the gap */
+  margin-top: 12px;
+}
+
+
 .accept-btn,
 .reject-btn {
   padding: 10px 15px;
@@ -161,6 +169,7 @@ body {
 .accept-btn {
   background-color: #28a745;
   color: white;
+
 }
 
 .reject-btn {
