@@ -7,10 +7,28 @@ import { ToastContainer, toast } from "react-toastify";
 const PendingRequests = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [emailSent, setEmailSent] = useState(false);
 
   useEffect(() => {
     fetchRequests();
   }, []);
+
+
+   const sendEmail = async (to, subject, message) => {
+      try {
+        const response = await axios.post('http://localhost:5000/send-email', {
+          to, subject, message
+        });
+  
+        if(response.data.success){
+          setEmailSent(true);
+          toast.success('Email sent successfully!');
+        }
+      } catch (error) {
+        console.error('Error sending email:', error);
+        toast.error('Error sending email.');
+      }
+    };
 
   const fetchRequests = async () => {
     if (!window.ethereum) return alert("Please install MetaMask");
@@ -48,6 +66,25 @@ const PendingRequests = () => {
       await tx.wait();
       toast.success("Access Granted!");
       fetchRequests(); // Refresh the requests list
+
+      const userDetails = await contract.getFullProfile();
+      const name = userDetails[0];
+      const userEmail = "shah1857@saskpolytech.ca"
+      const signerAddress = await signer.getAddress();
+
+      const tx1 = await contract.requestAccess(ownerAddress);
+      await tx1.wait();
+
+      const subject = `Data Access Request Accepted from ${name}`;
+
+      const message = `
+        <h2>Data Access Request Accepted</h2>
+        <p><strong>${name}</strong> has accepted your request access to identity data.</p>
+        <p>User Wallet Address: <strong>${signerAddress}</strong></p>
+        `;
+  
+      await sendEmail(userEmail, subject, message);
+
     } catch (err) {
       console.error("Error accepting request:", err);
       toast.error("Error granting access");
@@ -63,6 +100,24 @@ const PendingRequests = () => {
       await tx.wait();
       toast.success("Access Rejected!");
       fetchRequests(); // Refresh the requests list
+
+      const userDetails = await contract.getFullProfile();
+      const name = userDetails[0];
+      const userEmail = "shah1857@saskpolytech.ca"
+      const signerAddress = await signer.getAddress();
+
+      const tx1 = await contract.requestAccess(ownerAddress);
+      await tx1.wait();
+
+      const subject = `Data Access Request Rejected from ${name}`;
+
+      const message = `
+        <h2>Data Access Request Rejected</h2>
+        <p><strong>${name}</strong> has rejected your request access to identity data.</p>
+        <p>User Wallet Address: <strong>${signerAddress}</strong></p>
+        `;
+  
+      await sendEmail(userEmail, subject, message);
     } catch (err) {
       console.error("Error rejecting request:", err);
       toast.error("Error rejecting access");

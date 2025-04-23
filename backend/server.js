@@ -4,6 +4,9 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const email = require('emailjs'); 
+const { SMTPClient } = require('emailjs');
+
 
 const app = express();
 app.use(cors());
@@ -94,6 +97,37 @@ app.post("/org-register", async (req, res) => {
       }
     });
   });
+
+
+  const server = new SMTPClient({
+    user: 'mehtaajinkya12@gmail.com',
+    password: 'zjda lbbk wqvf rchf',
+    host: 'smtp.gmail.com',
+    ssl: true,
+  });
+  
+  app.post('/send-email', (req, res) => {
+    const { to, subject, message } = req.body;
+  
+    server.send(
+        {
+          text: 'Your email client does not support HTML.',
+          from: 'your-email@gmail.com',
+          to,
+          subject,
+          attachment: [{ data: message, alternative: true }],
+        },
+        (err, message) => {
+          if (err) {
+            // console.error('Email sending failed:', err);
+            res.status(500).json({ success: false, error: err });
+          } else {
+            console.log('Email sent successfully:', message);
+            res.json({ success: true, message: 'Email sent successfully!' });
+          }
+        }
+      );
+    });
 
 // Start Server
 app.listen(5000, () => console.log("Server running on port 5000"));
