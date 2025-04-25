@@ -31,5 +31,9 @@ Before running this project, ensure the following are installed:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/harsh-punjabi-523935/DIMS
+git clone https://github.com/harsh-punjabi-523935/DIMS.git
 cd dims
+
+npm install, axios, email.js
+cd frontend
+npm start
