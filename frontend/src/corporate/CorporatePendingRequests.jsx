@@ -11,7 +11,7 @@ const CorporatePendingRequests = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-     fetchPendingRequests();
+    fetchPendingRequests();
   }, []);
 
   const fetchPendingRequests = async () => {
@@ -57,7 +57,6 @@ const CorporatePendingRequests = () => {
           <li className="active">Pending Requests</li>
           <li onClick={() => navigate('/approved-access')}>Approved Access</li>
           <li onClick={() => navigate('/corporate-profile')}>Organization Profile</li>
-
         </ul>
         <button className="logout" onClick={() => console.log("Logout clicked")}>
           Logout
@@ -74,32 +73,31 @@ const CorporatePendingRequests = () => {
             <p>No pending requests.</p>
           ) : (
             <ul className="request-list">
-              {requests.map((req, index) =>
-                req.isPending ? (
-                  <li key={req.requester}>
-                    <span>{names[index]}</span>
-                    <span className="wallet">{req.requester}</span>
-                    <div className="actions">
-                      <button onClick={() => respondToRequest(req.requester, "accept")}>Accept</button>
-                      <button className="reject" onClick={() => respondToRequest(req.requester, "reject")}>
-                        Reject
-                      </button>
-                    </div>
-                  </li>
-                ) : null
-              )}
+              {requests.map((ownerAddress, index) => (
+                <li key={ownerAddress}>
+                  <span>{names[index]}</span>
+                  <span className="wallet">{ownerAddress}</span>
+                  <div className="actions">
+                    <button onClick={() => respondToRequest(ownerAddress, "accept")}>Accept</button>
+                    <button className="reject" onClick={() => respondToRequest(ownerAddress, "reject")}>
+                      Reject
+                    </button>
+                  </div>
+                </li>
+              ))}
             </ul>
           )}
         </main>
-          <ToastContainer 
-                      position="top-right" 
-                      autoClose={3000} 
-                      hideProgressBar={false} 
-                      newestOnTop={true} 
-                      closeOnClick
-                      pauseOnHover
-                      theme="dark"
-                    />
+
+        <ToastContainer 
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          pauseOnHover
+          theme="dark"
+        />
       </div>
     </div>
   );
